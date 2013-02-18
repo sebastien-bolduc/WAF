@@ -11,22 +11,22 @@ window.WAF = window.WAF || {};
 (function(namespace, undefined) {
     // public methods and properties
     /**
-    * Constructor.
-    * 
-    * @param 
-    * @return 
-    */
+     * Constructor.
+     * 
+     * @param 
+     * @return 
+     */
     namespace.Program = function() {
     };
     
     /**
-    * The main entry point for our application.
-    * 
-    * @param 
-    * @return 
-    */
+     * The main entry point for our application.
+     * 
+     * @param 
+     * @return 
+     */
     namespace.Program.prototype.main = function() {
-        var game = new WAF.game.Game1();
+        var game = new WAF.game.css.Game1();
         
         game.run();
     };

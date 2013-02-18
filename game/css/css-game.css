@@ -1,0 +1,31 @@
+/**
+ * @author      Sébastien Bolduc    <sebastien.bolduc@gmail.com>
+ * @version     0.0                 (current version number of program)
+ * @since       2013-02-17          (the version of the package this class was first added to)
+ */
+
+.goomba {
+    width: 206px;
+    height: 206px;
+    background: url(http://website.wlg.nl/whap/goomba.png) no-repeat center;
+}
+
+.sprite1 {
+    position: absolute;
+}
+
+.sprite2 {
+    position: absolute;
+}
+
+.sprite3 {
+    position: absolute;
+}
+
+.sprite4 {
+    position: absolute;
+}
+
+.sprite5 {
+    position: absolute;
+}
