@@ -58,9 +58,12 @@ window.WAF.game = window.WAF.game || {};
             this.averageFPS.shift();
         }
         
-        this.averageFPS.forEach(function(fps) {
+        /*this.averageFPS.forEach(function(fps) {
                averageFPS += fps;
-        });
+        });*/
+        for (var i=0; i<10; i++) {
+            averageFPS += this.averageFPS[i];
+        }
         
         return Math.floor(averageFPS / this.averageFPS.length);
     };
@@ -79,9 +82,12 @@ window.WAF.game = window.WAF.game || {};
             this.averageTBF.shift();
         }
         
-        this.averageTBF.forEach(function(tbf) {
+        /*this.averageTBF.forEach(function(tbf) {
                averageTBF += tbf;
-        });
+        });*/
+        for (var i=0; i<10; i++) {
+            averageTBF += this.averageTBF[i];
+        }
         
         return Math.floor(averageTBF / this.averageTBF.length);
     };

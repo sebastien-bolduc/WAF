@@ -81,8 +81,8 @@ window.WAF.game = window.WAF.game || {};
         
         // complete update and draw before requesting another frame
         // (note: callback is called later as a callback, not executed immediately)
-        window.requestAnimationFrame(function() {self.tick();});
-        //window.setTimeout(function() {self.tick();}, 1000/60);
+        //window.requestAnimationFrame(function() {self.tick();});
+        window.setTimeout(function() {self.tick();}, 1000/60);
     };
     
     // private methods and properties
