@@ -18,6 +18,7 @@ window.WAF.game = window.WAF.game || {};
      * @return 
      */
     namespace.Game = function() {
+        this.keyboard = null;
     };
     
     /**
@@ -29,6 +30,7 @@ window.WAF.game = window.WAF.game || {};
      */
     namespace.Game.prototype.initialize = function() {
         gameTime = new window.WAF.game.GameTime();
+        this.keyboard = new window.WAF.inputs.Keyboard();
     };
     
     /**

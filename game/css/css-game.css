@@ -4,10 +4,20 @@
  * @since       2013-02-17          (the version of the package this class was first added to)
  */
 
+.mario {
+    width: 256px;
+    height: 256px;
+    background: url(http://www.3dsbuzz.com/wp-content/uploads/2011/08/Super-Paper-Mario.png) no-repeat center;
+}
+
 .goomba {
     width: 206px;
     height: 206px;
     background: url(http://website.wlg.nl/whap/goomba.png) no-repeat center;
+}
+
+.sprite0 {
+    position: absolute;
 }
 
 .sprite1 {

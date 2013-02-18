@@ -40,6 +40,7 @@ window.WAF.game.css = window.WAF.game.css || {};
         document.getElementById("element2").innerHTML = "Average time between frame: -- ms";
         
         // test sprites...
+        sprite0 = new css.graphics.Sprite("sprite0");
         sprite1 = new css.graphics.Sprite("sprite1");
         sprite1.xIncrement = 5;
         sprite1.yIncrement = 5;
@@ -72,6 +73,7 @@ window.WAF.game.css = window.WAF.game.css || {};
         fps = gameTime.averageFramePerSecond();
         tbf = gameTime.averageTimeBetweenFrame();
         
+        // sprite...
         function move(sprite, x, y) {
             if (x <= 0) {
                 sprite.xIncrement = -sprite.xIncrement;
@@ -102,6 +104,21 @@ window.WAF.game.css = window.WAF.game.css || {};
         sprite5.y += sprite5.yIncrement;
         move(sprite5, sprite5.x, sprite5.y);
         
+        // keyboard...
+        var keyboardState = this.keyboard.getState();
+        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
+            sprite0.x -= 5;
+        }
+        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
+            sprite0.x += 5;;
+        }
+        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
+            sprite0.y -= 5;
+        }
+        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
+            sprite0.y += 5;
+        }
+        
         // call function of super class
         window.WAF.game.Game.prototype.update.call(this, gameTime);
     };
@@ -118,6 +135,7 @@ window.WAF.game.css = window.WAF.game.css || {};
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
         
         // test sprites...
+        sprite0.translateSprite(sprite0.x, sprite0.y);
         sprite1.translateSprite(sprite1.x, sprite1.y);
         sprite2.translateSprite(sprite2.x, sprite2.y);
         sprite3.translateSprite(sprite3.x, sprite3.y);
@@ -132,6 +150,7 @@ window.WAF.game.css = window.WAF.game.css || {};
     var css = window.WAF.game.css;
     var fps = 0;
     var tbf = 0;
+    var sprite0 = null;
     var sprite1 = null;
     var sprite2 = null;
     var sprite3 = null;
