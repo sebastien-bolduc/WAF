@@ -13,7 +13,8 @@ window.WAF.inputs.Keys = {};
 window.WAF.inputs.Keys.Left = 37;     // Left cursor key
 window.WAF.inputs.Keys.Up = 38;       // Up cursor key
 window.WAF.inputs.Keys.Right = 39;    // Right cursor key
-window.WAF.inputs.Keys.Down = 40;     // Down cursor ke
+window.WAF.inputs.Keys.Down = 40;     // Down cursor key
+window.WAF.inputs.Keys.s = 83;        // s key
 
 // using IIFE (Immediately-Invoked Function Expression) to give each file its own local scope
 (function(namespace, undefined) {

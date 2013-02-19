@@ -19,6 +19,7 @@ window.WAF.game = window.WAF.game || {};
      */
     namespace.Game = function() {
         this.keyboard = null;
+        this.charmBar = null;
     };
     
     /**
@@ -31,6 +32,7 @@ window.WAF.game = window.WAF.game || {};
     namespace.Game.prototype.initialize = function() {
         gameTime = new window.WAF.game.GameTime();
         this.keyboard = new window.WAF.inputs.Keyboard();
+        this.charmBar = new window.WAF.ui.CharmBar();
     };
     
     /**

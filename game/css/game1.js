@@ -77,13 +77,13 @@ window.WAF.game.css = window.WAF.game.css || {};
         function move(sprite, x, y) {
             if (x <= 0) {
                 sprite.xIncrement = -sprite.xIncrement;
-            } else if (x >= 1450) {
+            } else if (x >= (window.innerWidth-206-15)) {
                 sprite.xIncrement = -sprite.xIncrement;
             }
             
             if (y <= 0) {
                 sprite.yIncrement = -sprite.yIncrement;
-            } else if (y >= 550) {
+            } else if (y >= (window.innerHeight-206-15)) {
                 sprite.yIncrement = -sprite.yIncrement;
             }
         };
@@ -117,6 +117,13 @@ window.WAF.game.css = window.WAF.game.css || {};
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
             sprite0.y += 5;
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
+            if (this.charmBar.top) {
+                this.charmBar.hideTopCharmBar("status");
+            } else {
+                this.charmBar.showTopCharmBar("status");
+            }
         }
         
         // call function of super class

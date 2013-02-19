@@ -5,9 +5,12 @@
     <title>Web Application Framework (WAF)</title>
  
     <!-- source files for development -->
+    <link rel="stylesheet" type="text/css" href="ui/css-ui.css">
     <link rel="stylesheet" type="text/css" href="game/css/css-game.css">
     
     <script src="utils/customObject.js"></script>
+    
+    <script src="ui/charmBar.js"></script>
     
     <script src="inputs/keyboardState.js"></script>
     <script src="inputs/keyboard.js"></script>
@@ -24,9 +27,11 @@
 </head>
 
 <body onload="program.main()">
-    <p>Content goes here</p>
-    <div id="element1"></div>
-    <div id="element2"></div>
+    <div id="status" class="charmBarTop">
+        <p>Status of the application:</p>
+        <div id="element1"></div>
+        <div id="element2"></div>
+    </div>
     
     <div id="sprite0" class="sprite0 mario"></div>
     <div id="sprite1" class="sprite1 goomba"></div>
