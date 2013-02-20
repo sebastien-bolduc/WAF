@@ -57,6 +57,10 @@ window.WAF.game.css = window.WAF.game.css || {};
         sprite5.xIncrement = 1;
         sprite5.yIncrement = 1;
         
+        // test background...
+        background = new css.graphics.Background();
+        background.initializeBackground();
+        
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
     };
@@ -121,8 +125,10 @@ window.WAF.game.css = window.WAF.game.css || {};
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
                 this.charmBar.hideTopCharmBar("status");
+                document.getElementById("sprite0").className = "sprite0 mario";
             } else {
                 this.charmBar.showTopCharmBar("status");
+                document.getElementById("sprite0").className = "sprite0 goomba";
             }
         }
         
@@ -173,5 +179,6 @@ window.WAF.game.css = window.WAF.game.css || {};
     var sprite3 = null;
     var sprite4 = null;
     var sprite5 = null;
+    var background = null;
     
 }(window.WAF.game.css = window.WAF.game.css || {}));

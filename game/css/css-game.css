@@ -16,6 +16,15 @@
     background: url(http://website.wlg.nl/whap/goomba.png) no-repeat center;
 }
 
+.field {
+    /*width: 2592;
+    height: 1944;*/
+    display: block;
+    width: 200px;
+    height: 200px;
+    background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) no-repeat center;
+}
+
 .sprite0 {
     position: absolute;
 }
@@ -38,4 +47,24 @@
 
 .sprite5 {
     position: absolute;
+}
+
+.tile0 {
+    position: absolute;
+    background-position: 0 0;
+}
+
+.tile1 {
+    position: absolute;
+    background-position: -200px -200px;
+}
+
+.tile2 {
+    position: absolute;
+    background-position: -400px -400px;
+}
+
+.tile3 {
+    position: absolute;
+    background-position: -600px -600px;
 }
