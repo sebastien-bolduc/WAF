@@ -38,8 +38,7 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @param event Event relating to keyboard strokes
      * @return 
      */
-    namespace.KeyboardState.prototype.handleKeyDown = function(event)
-    {
+    namespace.KeyboardState.prototype.handleKeyDown = function(event) {
         this.isKeyPressed[event.keyCode] = true;
     };
 
@@ -49,8 +48,7 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @param event Event relating to keyboard strokes.
      * @return 
      */
-    namespace.KeyboardState.prototype.handleKeyUp = function(event)
-    {
+    namespace.KeyboardState.prototype.handleKeyUp = function(event) {
         this.isKeyPressed[event.keyCode] = false;
     };
     
@@ -60,8 +58,7 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @param key Char code of the key to check.
      * @return {boolean} Key pressed or not
      */
-    namespace.KeyboardState.prototype.isKeyDown = function(key)
-    {
+    namespace.KeyboardState.prototype.isKeyDown = function(key) {
         return this.isKeyPressed[key];
     };
 
@@ -71,8 +68,7 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @param key Char code of the key to check.
      * @return {boolean} Key pressed or not
      */
-    namespace.KeyboardState.prototype.isKeyDownOnce = function(key)
-    {
+    namespace.KeyboardState.prototype.isKeyDownOnce = function(key) {
         if (this.isKeyPressed[key] === true && this.isKeyPressedOnce[key] === false) {
             this.isKeyPressedOnce[key] = true;
             return true;

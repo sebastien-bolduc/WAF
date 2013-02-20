@@ -126,6 +126,16 @@ window.WAF.game.css = window.WAF.game.css || {};
             }
         }
         
+        // touch...
+        var touchState = this.touch.getState();
+        if (touchState.hasBeenTouched()) {
+            if (this.charmBar.top) {
+                this.charmBar.hideTopCharmBar("status");
+            } else {
+                this.charmBar.showTopCharmBar("status");
+            }
+        }
+        
         // call function of super class
         window.WAF.game.Game.prototype.update.call(this, gameTime);
     };
