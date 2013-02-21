@@ -58,7 +58,18 @@ window.WAF.game.css = window.WAF.game.css || {};
         sprite5.yIncrement = 1;
         
         // test background...
-        background = new css.graphics.Background();
+        scene.image = "field";
+        scene.map = ["tile0", "tile1", "tile2", "tile3", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3",
+                    "tile0", "tile2", "tile1", "tile0", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3",
+                    "tile0", "tile2", "tile2", "tile2", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3"];
+        scene.mapWidth = 10;
+        scene.mapHeight = 3;
+        scene.tileWidth = 200;
+        scene.tileHeight = 200;    
+        scene.curPixelPositionOfFirstTile = 0;
+        scene.curPositionOnTileMap = 5;
+        scene.viewportOfTileDisplayed = 4;
+        background = new css.graphics.Background(scene);
         background.initializeBackground();
         
         // call function of super class
@@ -76,6 +87,10 @@ window.WAF.game.css = window.WAF.game.css || {};
         // TODO: Add your update logic here
         fps = gameTime.averageFramePerSecond();
         tbf = gameTime.averageTimeBetweenFrame();
+        
+        // background...
+        //background.scrollLeft(2, true);
+        background.scrollRight(2, true);
         
         // sprite...
         function move(sprite, x, y) {
@@ -111,10 +126,12 @@ window.WAF.game.css = window.WAF.game.css || {};
         // keyboard...
         var keyboardState = this.keyboard.getState();
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
-            sprite0.x -= 5;
+            //sprite0.x -= 5;
+            //background.scrollLeft(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
-            sprite0.x += 5;;
+            //sprite0.x += 5;
+            //background.scrollRight(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
             sprite0.y -= 5;
@@ -157,6 +174,9 @@ window.WAF.game.css = window.WAF.game.css || {};
         document.getElementById("element1").innerHTML = "Average frame per second (fps): " + fps;
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
         
+        // background...
+        background.drawBackground();
+        
         // test sprites...
         sprite0.translateSprite(sprite0.x, sprite0.y);
         sprite1.translateSprite(sprite1.x, sprite1.y);
@@ -179,6 +199,7 @@ window.WAF.game.css = window.WAF.game.css || {};
     var sprite3 = null;
     var sprite4 = null;
     var sprite5 = null;
+    var scene = {};
     var background = null;
     
 }(window.WAF.game.css = window.WAF.game.css || {}));

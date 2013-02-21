@@ -19,10 +19,24 @@
 .field {
     /*width: 2592;
     height: 1944;*/
-    display: block;
     width: 200px;
     height: 200px;
     background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) no-repeat center;
+}
+
+.backgroundWrapper {
+    margin: auto; 
+	position: absolute;
+	width: 800px;
+    height: 600px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 1px 1px 10px #999; 
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.backgroundWrapper div {
+    display: inline-block;
 }
 
 .sprite0 {
