@@ -59,16 +59,25 @@ window.WAF.game.css = window.WAF.game.css || {};
         
         // test background...
         scene.image = "field";
-        scene.map = ["tile0", "tile1", "tile2", "tile3", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3",
-                    "tile0", "tile2", "tile1", "tile0", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3",
-                    "tile0", "tile2", "tile2", "tile2", "tile3", "tile0", "tile1", "tile2", "tile3", "tile3"];
+        scene.map = ["tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0",
+                    "tile0", "tile2", "tile1", "tile3", "tile1", "tile2", "tile1", "tile3", "tile1", "tile0",
+                    "tile0", "tile2", "tile1", "tile3", "tile1", "tile2", "tile1", "tile3", "tile1", "tile0",
+                    "tile0", "tile2", "tile1", "tile3", "tile1", "tile2", "tile1", "tile3", "tile1", "tile0",
+                    "tile0", "tile2", "tile1", "tile3", "tile1", "tile2", "tile1", "tile3", "tile1", "tile0",
+                    "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0", "tile0"];
         scene.mapWidth = 10;
-        scene.mapHeight = 3;
+        scene.mapHeight = 6;
         scene.tileWidth = 200;
         scene.tileHeight = 200;    
-        scene.curPixelPositionOfFirstTile = 0;
-        scene.curPositionOnTileMap = 5;
-        scene.viewportOfTileDisplayed = 4;
+        scene.curPixelPositionOfFirstTile = {};
+        scene.curPixelPositionOfFirstTile.X = 0;
+        scene.curPixelPositionOfFirstTile.Y = 0;
+        scene.curPositionOnTileMap = {};
+        scene.curPositionOnTileMap.X = 0;
+        scene.curPositionOnTileMap.Y = 0;
+        scene.viewportOfTileDisplayed = {};
+        scene.viewportOfTileDisplayed.width = 4;
+        scene.viewportOfTileDisplayed.height = 3;
         background = new css.graphics.Background(scene);
         background.initializeBackground();
         
@@ -90,7 +99,7 @@ window.WAF.game.css = window.WAF.game.css || {};
         
         // background...
         //background.scrollLeft(2, true);
-        background.scrollRight(2, true);
+        //background.scrollRight(2, true);
         
         // sprite...
         function move(sprite, x, y) {
@@ -127,17 +136,19 @@ window.WAF.game.css = window.WAF.game.css || {};
         var keyboardState = this.keyboard.getState();
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
             //sprite0.x -= 5;
-            //background.scrollLeft(5, true);
+            background.scrollRight(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
             //sprite0.x += 5;
-            //background.scrollRight(5, true);
+            background.scrollLeft(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
-            sprite0.y -= 5;
+            //sprite0.y -= 5;
+            background.scrollDown(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
-            sprite0.y += 5;
+            //sprite0.y += 5;
+            background.scrollUp(5, true);
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
