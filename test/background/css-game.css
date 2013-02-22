@@ -1,0 +1,25 @@
+/**
+ * @author      Sébastien Bolduc    <sebastien.bolduc@gmail.com>
+ * @version     0.0                 (current version number of program)
+ * @since       2013-02-21          (the version of the package this class was first added to)
+ */
+ 
+body {
+    overflow: hidden;
+}
+
+.viewport {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: block;
+} 
+
+.field {
+    width: 2592px;
+    height: 1944px;
+    background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) no-repeat center;
+}
