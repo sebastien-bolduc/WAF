@@ -31,7 +31,7 @@ window.WAF.test= window.WAF.test || {};
      * run.
      * 
      * @param 
-     * @return 
+     * @return
      */
     namespace.Game1.prototype.initialize = function() {
         // TODO: Add your initialization logic here
@@ -39,16 +39,25 @@ window.WAF.test= window.WAF.test || {};
         document.getElementById("element2").innerHTML = "Average time between frame: -- ms";
         
         // background
-        /*var scrollPosition = {};    // position of the background
-        scrollPosition.X = 0;
-        scrollPosition.Y = 0;
-        background = new window.WAF.game.css.graphics.BackgroundImage("game", "field", scrollPosition);*/
+        var initPosition = {};  // position of the background
+        initPosition.X = 0;
+        initPosition.Y = 0;
+        background = new window.WAF.game.css.graphics.BackgroundImage("game", "backgroundField", "field", initPosition);
         
         // background (loop)
-        var scrollPosition = {};    // position of the background
-        scrollPosition.X = 2592;
-        scrollPosition.Y = 1944;
-        background = new window.WAF.game.css.graphics.BackgroundImage("game", "fieldLoop", scrollPosition);
+        /*var initPosition = {};  // position of the background
+        initPosition.X = 2592;
+        initPosition.Y = 1944;
+        background = new window.WAF.game.css.graphics.BackgroundImage("game", "backgroundField", "fieldLoop", initPosition);*/
+        
+        // sprite
+        spriteList = [];
+        for (var i=0; i<20; i++) {
+            spriteList.push(new window.WAF.game.css.graphics.SpriteImage("backgroundField", "spriteMario" + i, "mario"));
+            spriteList[i].translate(Math.floor(Math.random()*800), 0);
+            spriteList[i].xIncrement = Math.floor(Math.random()*5 + 1);
+            spriteList[i].yIncrement = Math.floor(Math.random()*5 + 1);
+        }
         
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
@@ -66,19 +75,40 @@ window.WAF.test= window.WAF.test || {};
         fps = gameTime.averageFramePerSecond();
         tbf = gameTime.averageTimeBetweenFrame();
         
+        // sprite...
+        function move(sprite) {
+            sprite.x += sprite.xIncrement;
+            sprite.y += sprite.yIncrement;
+            
+            if (sprite.x <= 0) {
+                sprite.xIncrement = -sprite.xIncrement;
+            } else if (sprite.x >= (document.getElementById("backgroundField").scrollWidth - 256 - 15)) {
+                sprite.xIncrement = -sprite.xIncrement;
+            }
+            
+            if (sprite.y <= 0) {
+                sprite.yIncrement = -sprite.yIncrement;
+            } else if (sprite.y >= (document.getElementById("backgroundField").scrollHeight - 256 - 15)) {
+                sprite.yIncrement = -sprite.yIncrement;
+            }
+        }
+        for (var i=0; i<spriteList.length; i++) {
+            move(spriteList[i]);
+        }
+        
         // keyboard...
         var keyboardState = this.keyboard.getState();
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
-            background.scrollLeft(5, true);
+            background.scrollLeft(5, false);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
-            background.scrollRight(5, true);
+            background.scrollRight(5, false);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
-            background.scrollUp(5, true);
+            background.scrollUp(5, false);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
-            background.scrollDown(5, true);
+            background.scrollDown(5, false);
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
@@ -113,6 +143,11 @@ window.WAF.test= window.WAF.test || {};
         document.getElementById("element1").innerHTML = "Average frame per second (fps): " + fps;
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
         
+        // sprite
+        for (var i=0; i<spriteList.length; i++) {
+            spriteList[i].translate(spriteList[i].x, spriteList[i].y);
+        }
+        
         // call function of super class
         window.WAF.game.Game.prototype.draw.call(this);
     };
@@ -122,5 +157,6 @@ window.WAF.test= window.WAF.test || {};
     var fps = 0;
     var tbf = 0;
     var background = null;
+    var spriteList = null;
     
 }(window.WAF.test = window.WAF.test || {}));

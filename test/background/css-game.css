@@ -19,13 +19,22 @@ body {
 } 
 
 .field {
+    position: absolute;
     width: 2592px;
     height: 1944px;
     background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) no-repeat center;
 }
 
 .fieldLoop {
+    position: absolute;
     width: 7776px;
     height: 5832px;
     background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) repeat;
+}
+
+.mario {
+    position: absolute;
+    width: 256px;
+    height: 256px;
+    background: url(http://www.3dsbuzz.com/wp-content/uploads/2011/08/Super-Paper-Mario.png) no-repeat center;
 }

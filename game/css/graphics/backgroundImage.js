@@ -16,16 +16,19 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
     /**
      * Constructor.
      * 
-     * @param game           Game container.
-     * @param image          Image for the background.
-     * @param scrollPosition Start position on the background.
+     * @param containedByElement ID of the element this sprite is 'contained' by.
+     * @param backgroundID       ID of the background to handle.
+     * @param image              Image associated with the background.
+     * @param initPosition       Initial position on the background.
      * @return 
      */
-    namespace.BackgroundImage = function(game, image, scrollPosition) {
-        document.getElementById(game).innerHTML += '<div id="scroll' + image + '" class="viewport"><div id="background' + image + '" class="' + image + '"></div></div>';
+    namespace.BackgroundImage = function(containedByElement, backgroundID, image, initPosition) {
+        document.getElementById(containedByElement).innerHTML += '<div id="' + backgroundID + '" class="viewport"><div class="' + image + '"></div></div>';
         
-        this.id = image;
-        this.curScrollPosition = scrollPosition;    // current position of the background
+        this.id = backgroundID;
+        this.curPosition = initPosition;                                    // current position on the background
+        document.getElementById(this.id).scrollLeft = this.curPosition.X;
+        document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     
     /**
@@ -38,20 +41,20 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      */
     namespace.BackgroundImage.prototype.scrollRight = function(speed, loop) {
         if (loop) {
-            this.curScrollPosition.X += speed;
-            if (this.curScrollPosition.X >= (document.getElementById("scroll" + this.id).scrollWidth / 3) * 2) {
-                this.curScrollPosition.X -= (document.getElementById("scroll" + this.id).scrollWidth / 3); 
+            this.curPosition.X += speed;
+            if (this.curPosition.X >= (document.getElementById(this.id).scrollWidth / 3) * 2) {
+                this.curPosition.X -= (document.getElementById(this.id).scrollWidth / 3); 
             }   
         } else {
-            if (this.curScrollPosition.X < (document.getElementById("scroll" + this.id).scrollWidth - document.getElementById("scroll" + this.id).clientWidth)) {
-                this.curScrollPosition.X += speed;
+            if (this.curPosition.X < (document.getElementById(this.id).scrollWidth - document.getElementById(this.id).clientWidth)) {
+                this.curPosition.X += speed;
             } else {
-                this.curScrollPosition.X = (document.getElementById("scroll" + this.id).scrollWidth - document.getElementById("scroll" + this.id).clientWidth); 
+                this.curPosition.X = (document.getElementById(this.id).scrollWidth - document.getElementById(this.id).clientWidth); 
             }
         }
          
         // scrolling the background to the new position
-        document.getElementById("scroll" + this.id).scrollLeft = this.curScrollPosition.X;
+        document.getElementById(this.id).scrollLeft = this.curPosition.X;
     };
     
     /**
@@ -64,20 +67,20 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      */
     namespace.BackgroundImage.prototype.scrollLeft = function(speed, loop) {
         if (loop) {
-            this.curScrollPosition.X -= speed;
-            if (this.curScrollPosition.X <= ((document.getElementById("scroll" + this.id).scrollWidth / 3) - document.getElementById("scroll" + this.id).clientWidth)) {
-                this.curScrollPosition.X += ((document.getElementById("scroll" + this.id).scrollWidth / 3) * 1);
+            this.curPosition.X -= speed;
+            if (this.curPosition.X <= ((document.getElementById(this.id).scrollWidth / 3) - document.getElementById(this.id).clientWidth)) {
+                this.curPosition.X += ((document.getElementById(this.id).scrollWidth / 3) * 1);
             }
         } else {
-            if (this.curScrollPosition.X > 0) {
-                this.curScrollPosition.X -= speed;
+            if (this.curPosition.X > 0) {
+                this.curPosition.X -= speed;
             } else {
-                this.curScrollPosition.X = 0;
+                this.curPosition.X = 0;
             }
         }
          
         // scrolling the background to the new position
-        document.getElementById("scroll" + this.id).scrollLeft = this.curScrollPosition.X;
+        document.getElementById(this.id).scrollLeft = this.curPosition.X;
     };
     
     /**
@@ -90,20 +93,20 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      */
     namespace.BackgroundImage.prototype.scrollUp = function(speed, loop) {
         if (loop) {
-            this.curScrollPosition.Y -= speed;
-            if (this.curScrollPosition.Y <= ((document.getElementById("scroll" + this.id).scrollHeight / 3) - document.getElementById("scroll" + this.id).clientHeight)) {
-                this.curScrollPosition.Y += ((document.getElementById("scroll" + this.id).scrollHeight / 3) * 1);
+            this.curPosition.Y -= speed;
+            if (this.curPosition.Y <= ((document.getElementById(this.id).scrollHeight / 3) - document.getElementById(this.id).clientHeight)) {
+                this.curPosition.Y += ((document.getElementById(this.id).scrollHeight / 3) * 1);
             }
         } else {
-            if (this.curScrollPosition.Y > 0) {
-                this.curScrollPosition.Y -= speed;
+            if (this.curPosition.Y > 0) {
+                this.curPosition.Y -= speed;
             } else {
-                this.curScrollPosition.Y = 0;
+                this.curPosition.Y = 0;
             }
         }
          
         // scrolling the background to the new position
-        document.getElementById("scroll" + this.id).scrollTop = this.curScrollPosition.Y;
+        document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     
     /**
@@ -116,20 +119,20 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      */
     namespace.BackgroundImage.prototype.scrollDown = function(speed, loop) {
         if (loop) {
-            this.curScrollPosition.Y += speed;
-            if (this.curScrollPosition.Y >= (document.getElementById("scroll" + this.id).scrollHeight / 3) * 2) {
-                this.curScrollPosition.Y -= (document.getElementById("scroll" + this.id).scrollHeight / 3); 
+            this.curPosition.Y += speed;
+            if (this.curPosition.Y >= (document.getElementById(this.id).scrollHeight / 3) * 2) {
+                this.curPosition.Y -= (document.getElementById(this.id).scrollHeight / 3); 
             }  
         } else {
-            if (this.curScrollPosition.Y < (document.getElementById("scroll" + this.id).scrollHeight - 800)) { //document.getElementById("scroll" + this.id).clientHeight)) {
-                this.curScrollPosition.Y += speed;
+            if (this.curPosition.Y < (document.getElementById(this.id).scrollHeight - document.getElementById(this.id).clientHeight)) {
+                this.curPosition.Y += speed;
             } else {
-                this.curScrollPosition.Y = (document.getElementById("scroll" + this.id).scrollHeight - document.getElementById("scroll" + this.id).clientHeight);
+                this.curPosition.Y = (document.getElementById(this.id).scrollHeight - document.getElementById(this.id).clientHeight);
             }
         }
         
         // scrolling the background to the new position
-        document.getElementById("scroll" + this.id).scrollTop = this.curScrollPosition.Y;
+        document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     
     // private methods and properties
