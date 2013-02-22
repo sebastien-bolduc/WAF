@@ -39,7 +39,16 @@ window.WAF.test= window.WAF.test || {};
         document.getElementById("element2").innerHTML = "Average time between frame: -- ms";
         
         // background
-        background = new window.WAF.game.css.graphics.BackgroundImage("game", "field");
+        /*var scrollPosition = {};    // position of the background
+        scrollPosition.X = 0;
+        scrollPosition.Y = 0;
+        background = new window.WAF.game.css.graphics.BackgroundImage("game", "field", scrollPosition);*/
+        
+        // background (loop)
+        var scrollPosition = {};    // position of the background
+        scrollPosition.X = 2592;
+        scrollPosition.Y = 1944;
+        background = new window.WAF.game.css.graphics.BackgroundImage("game", "fieldLoop", scrollPosition);
         
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
@@ -60,16 +69,16 @@ window.WAF.test= window.WAF.test || {};
         // keyboard...
         var keyboardState = this.keyboard.getState();
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
-            background.scrollLeft(5, false);
+            background.scrollLeft(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
-            background.scrollRight(5, false);
+            background.scrollRight(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
-            background.scrollUp(5, false);
+            background.scrollUp(5, true);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
-            background.scrollDown(5, false);
+            background.scrollDown(5, true);
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {

@@ -23,3 +23,9 @@ body {
     height: 1944px;
     background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) no-repeat center;
 }
+
+.fieldLoop {
+    width: 7776px;
+    height: 5832px;
+    background: url(http://www.townoffrisco.com/wp-content/uploads/2009/03/pra-ball-field-sep-07-022.jpg) repeat;
+}
