@@ -27,6 +27,8 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
         this.id = spriteID;
         this.x = 0;
         this.y = 0;
+        this.width = document.getElementById(this.id).scrollWidth;      // hack to get sprite dimension
+        this.height = document.getElementById(this.id).scrollHeight;
     };
     
     /**

@@ -16,7 +16,7 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
     /**
      * Constructor.
      * 
-     * @param containedByElement ID of the element this sprite is 'contained' by.
+     * @param containedByElement ID of the element this background is 'contained' by.
      * @param backgroundID       ID of the background to handle.
      * @param image              Image associated with the background.
      * @param initPosition       Initial position on the background.
