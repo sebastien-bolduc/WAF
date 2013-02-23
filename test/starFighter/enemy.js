@@ -68,13 +68,13 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Update the enemies behavior.
      * 
-     * @param
+     * @param gameTime GameTime object to update with the function call.
      * @return
      */
-    namespace.Enemy.prototype.update = function() {
+    namespace.Enemy.prototype.update = function(gameTime) {
         // asteroid
         for (var i=0; i<this.asteroidList.length; i++) {
-            this.asteroidList[i].update();
+            this.asteroidList[i].update(gameTime);
             
             // remove asteroid if limit is cross
             if (this.asteroidList[i].x < (document.getElementById("backgroundStarfield").scrollLeft)) {

@@ -68,8 +68,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         tbf = gameTime.averageTimeBetweenFrame();
         
         // game update...
-        starship.update();
-        enemy.update();
+        starship.update(gameTime);
+        enemy.update(gameTime);
         
         // check collision...
         for (var i=0; i<starship.pulseList.length; i++) {
@@ -112,18 +112,19 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         
         // keyboard...
+        var speed = Math.ceil(5/16 * gameTime.elapsedGameTime);
         var keyboardState = this.keyboard.getState();
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
-            move(starship, -5, 0);
+            move(starship, -speed, 0);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
-            move(starship, 5, 0);
+            move(starship, speed, 0);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
-            move(starship, 0, -5);
+            move(starship, 0, -speed);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
-            move(starship, 0, 5);
+            move(starship, 0, speed);
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space)) {
             starship.shoot();

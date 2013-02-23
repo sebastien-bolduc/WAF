@@ -36,11 +36,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Update the position of the pulse.
      * 
-     * @param
+     * @param gameTime GameTime object to update with the function call.
      * @return
      */
-    namespace.Pulse.prototype.update = function() {
-        this.x += 10;
+    namespace.Pulse.prototype.update = function(gameTime) {
+        this.x += Math.ceil(10/16 * gameTime.elapsedGameTime);
     };
     
     /**

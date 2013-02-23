@@ -37,11 +37,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Update the position of the asteroid.
      * 
-     * @param
+     * @param gameTime GameTime object to update with the function call.
      * @return
      */
-    namespace.Asteroid.prototype.update = function() {
-        this.x -= this.speed;
+    namespace.Asteroid.prototype.update = function(gameTime) {
+        this.x -= Math.ceil((this.speed / 16) * gameTime.elapsedGameTime);
     };
     
     /**

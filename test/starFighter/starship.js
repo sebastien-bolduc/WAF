@@ -66,13 +66,13 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Update the pulse shoot by the starship.
      * 
-     * @param
+     * @param gameTime GameTime object to update with the function call.
      * @return
      */
-    namespace.Starship.prototype.update = function() {
+    namespace.Starship.prototype.update = function(gameTime) {
         // update pulse
         for (var i=0; i<this.pulseList.length; i++) {
-            this.pulseList[i].update();
+            this.pulseList[i].update(gameTime);
             
             // remove pulse if limit is cross
             if (this.pulseList[i].x > (document.getElementById("backgroundStarfield").scrollLeft + window.innerWidth)) {

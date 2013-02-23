@@ -24,7 +24,7 @@ window.WAF.game = window.WAF.game || {};
         this.averageTBF = [];
         
         this.currentGameTime = new Date().getTime();
-        this.elapsedGameTime = namespace.currentGameTime;
+        this.elapsedGameTime = 0;
     };
     
     /**
