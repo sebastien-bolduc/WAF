@@ -15,21 +15,26 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Constructor.
      * 
-     * @param 
+     * @param containedByElement ID of the element this sprite is 'contained' by. 
      * @return 
      */
-    namespace.Starship = function() {
-        spriteList = [];
-        spriteList.push(new window.WAF.game.css.graphics.SpriteImage("backgroundStarfield", "spriteStarship", "starship"));
+    namespace.Starship = function(containedByElement) {
+        this.parentElement = containedByElement;
+        this.spriteList = [];
+        this.spriteList.push(new window.WAF.game.css.graphics.SpriteImage(this.parentElement, "spriteStarship", "starship")); 
         
         this.id = "spriteStarship";
         this.x = 0;
         this.y = 0;
-        this.width = spriteList[0].width;
-        this.height = spriteList[0].height;
+        this.width = this.spriteList[0].width;
+        this.height = this.spriteList[0].height;
         this.size = 1;
         
-        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, spriteList[0].width, spriteList[0].height);
+        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.width, this.height);
+        
+        // set starting position of sprite
+        this.spriteList[0].x = this.x;
+        this.spriteList[0].y = this.y;
         
         this.pulseList = [];
     };
@@ -49,7 +54,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             modifier++;
         }
         
-        this.pulseList.push(new window.WAF.test.starFighter.Pulse(pulseID, this.x, this.y));
+        this.pulseList.push(new window.WAF.test.starFighter.Pulse(this.parentElement, pulseID, this.x, this.y));
     };
     
     /**
@@ -82,17 +87,17 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     };
     
     /**
-     * Update the pulse shoot by the starship.
+     * Update the position of the starship and the pulse shot by the starship.
      * 
      * @param gameTime GameTime object to update with the function call.
      * @return
      */
     namespace.Starship.prototype.update = function(gameTime) {
         // update starship
-        for (var i=0; i<spriteList.length; i++) {
-            spriteList[i].translate(this.x, this.y);
-            spriteList[i].scale(this.size);
-            this.hitbox.translate(spriteList[i].x, spriteList[i].y);
+        for (var i=0; i<this.spriteList.length; i++) {
+            this.spriteList[i].translate(this.x, this.y);
+            this.spriteList[i].scale(this.size);
+            this.hitbox.translate(this.spriteList[i].x, this.spriteList[i].y);
         }
         
         // update pulse
@@ -100,7 +105,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             this.pulseList[j].update(gameTime);
             
             // remove pulse if limit is cross
-            if (this.pulseList[j].x > (document.getElementById("backgroundStarfield").scrollLeft + window.innerWidth)) {
+            if (this.pulseList[j].x > (document.getElementById(this.parentElement).scrollLeft + document.getElementById(this.parentElement).clientWidth)) {
                 var pulseElement = document.getElementById(this.pulseList[j].id);
                 pulseElement.parentNode.removeChild(pulseElement);
                 this.pulseList.splice(j,1);
@@ -116,8 +121,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      */
     namespace.Starship.prototype.draw = function() {
         // draw starship
-        for (var i=0; i<spriteList.length; i++) {
-            spriteList[i].draw();
+        for (var i=0; i<this.spriteList.length; i++) {
+            this.spriteList[i].draw();
         }
         
         // draw pulse
@@ -128,6 +133,5 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     
     // private methods and properties
     var starFighter = window.WAF.test.starFighter;
-    var spriteList = null;
     
 }(window.WAF.test.starFighter = window.WAF.test.starFighter || {}));

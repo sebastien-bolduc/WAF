@@ -15,14 +15,16 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Constructor.
      * 
-     * @param pulseID ID of the pulse to handle.
-     * @param x       Start position of pulse on X axis.
-     * @param y       Start position of pulse on Y axis. 
+     * @param containedByElement ID of the element this sprite is 'contained' by.
+     * @param pulseID            ID of the pulse to handle.
+     * @param x                  Start position of pulse on X axis.
+     * @param y                  Start position of pulse on Y axis. 
      * @return 
      */
-    namespace.Pulse = function(pulseID, x, y) {
+    namespace.Pulse = function(containedByElement, pulseID, x, y) {
+        this.parentElement = containedByElement;
         this.spriteList = [];
-        this.spriteList.push(new window.WAF.game.css.graphics.SpriteImage("backgroundStarfield", pulseID, "pulse"));
+        this.spriteList.push(new window.WAF.game.css.graphics.SpriteImage(this.parentElement, pulseID, "pulse"));
         
         this.id = pulseID;
         this.x = x + 65;
@@ -30,7 +32,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         this.width = this.spriteList[0].width;
         this.height = this.spriteList[0].height;
         
-        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.spriteList[0].width, this.spriteList[0].height);
+        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.width, this.height);
+        
+        // set starting position of sprite
+        this.spriteList[0].x = this.x;
+        this.spriteList[0].y = this.y;
     };
     
     /**
@@ -41,6 +47,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      */
     namespace.Pulse.prototype.update = function(gameTime) {
         this.x += Math.ceil(10/16 * gameTime.elapsedGameTime);
+        
+        for (var i=0; i<this.spriteList.length; i++) {
+            this.spriteList[i].translate(this.x, this.y);
+            this.hitbox.translate(this.spriteList[i].x, this.spriteList[i].y);
+        }  
     };
     
     /**
@@ -51,8 +62,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      */
     namespace.Pulse.prototype.draw = function() {
         for (var i=0; i<this.spriteList.length; i++) {
-            this.spriteList[i].translate(this.x, this.y);
-            this.hitbox.translate(this.spriteList[i].x, this.spriteList[i].y);
+            this.spriteList[i].draw();
         }  
     };
     

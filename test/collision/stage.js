@@ -36,12 +36,22 @@ window.WAF.test.collision = window.WAF.test.collision || {};
         for (var j=0; j<map.height; j++) {
             for (var i=0; i<map.width; i++) {
                 var element = i + (j * map.width);
-                if (map.content[element] != "") {
+                if (map.content[element] !== "") {
                     this.hitboxList.push(new window.WAF.game.Rectangle(i * this.level.tileList[0].width, j * this.level.tileList[0].height, 
                                                                         this.level.tileList[0].width, this.level.tileList[0].height));
                 }
             }
         }
+    };
+    
+    /**
+     * Draw the stage.
+     * 
+     * @param
+     * @return
+     */
+    namespace.Stage.prototype.draw = function() {
+        this.level.draw();
     };
     
     // private methods and properties

@@ -49,7 +49,20 @@ window.WAF.test.collision = window.WAF.test.collision || {};
                 break;
             }
         }
-    }
+    };
+    
+    /**
+     * Update the position of mario.
+     * 
+     * @param
+     * @return
+     */
+    namespace.Mario.prototype.update = function() {
+        for (var i=0; i<spriteList.length; i++) {
+            spriteList[i].translate(this.x, this.y);
+            this.hitbox.translate(spriteList[i].x, spriteList[i].y);
+        }
+    };
     
     /**
      * Draw the mario sprite.
@@ -59,8 +72,7 @@ window.WAF.test.collision = window.WAF.test.collision || {};
      */
     namespace.Mario.prototype.draw = function() {
         for (var i=0; i<spriteList.length; i++) {
-            spriteList[i].translate(this.x, this.y);
-            this.hitbox.translate(spriteList[i].x, spriteList[i].y);
+            spriteList[i].draw();
         }  
     };
     

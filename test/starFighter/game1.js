@@ -46,10 +46,10 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         background = new window.WAF.game.css.graphics.BackgroundImage("game", "backgroundStarfield", "starfield", initPosition);
         
         // sprite
-        starship = new window.WAF.test.starFighter.Starship();
+        starship = new window.WAF.test.starFighter.Starship("backgroundStarfield");
         
         // enemy
-        enemy = new window.WAF.test.starFighter.Enemy();
+        enemy = new window.WAF.test.starFighter.Enemy("backgroundStarfield");
         
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
@@ -164,6 +164,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // TODO: Add your drawing code here
         document.getElementById("element1").innerHTML = "Average frame per second (fps): " + fps;
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
+        
+        // background
+        background.draw();
         
         // sprite
         starship.draw();

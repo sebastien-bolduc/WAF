@@ -31,7 +31,7 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
         for (var j=0; j<map.height; j++) {
             for (var i=0; i<map.width; i++) {
                 var element = i + (j * map.width);
-                if (map.content[element] != "") {
+                if (map.content[element] !== "") {
                     this.tileList.push(new window.WAF.game.css.graphics.SpriteImage(this.id, "tile" + element, map.content[element]));
                     this.tileList[this.tileList.length-1].translate(i * this.tileList[this.tileList.length-1].width, j * this.tileList[this.tileList.length-1].height);
                 }
@@ -39,6 +39,18 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
         }
     };
     
+    /**
+     * Draw the level.
+     * 
+     * @param
+     * @return
+     */
+    namespace.LevelImage.prototype.draw = function() {
+        for (var i=0; i<this.tileList.length; i++) {
+            this.tileList[i].draw();
+        }
+    };
+        
     // private methods and properties
     var graphics = window.WAF.game.css.graphics;
     

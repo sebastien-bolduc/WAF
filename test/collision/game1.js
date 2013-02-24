@@ -67,6 +67,9 @@ window.WAF.test.collision = window.WAF.test.collision || {};
         fps = gameTime.averageFramePerSecond();
         tbf = gameTime.averageTimeBetweenFrame();
         
+        // game update...
+        mario.update();
+        
         // sprite...
         function move(sprite, x, y) {
             sprite.x += x;
@@ -149,6 +152,12 @@ window.WAF.test.collision = window.WAF.test.collision || {};
         // TODO: Add your drawing code here
         document.getElementById("element1").innerHTML = "Average frame per second (fps): " + fps;
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
+        
+        // background
+        background.draw();
+        
+        // stage
+        stage.draw();
         
         // sprite
         mario.draw();

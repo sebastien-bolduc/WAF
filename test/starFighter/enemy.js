@@ -15,10 +15,12 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Constructor.
      * 
-     * @param 
+     * @param containedByElement ID of the element this sprite is 'contained' by.
      * @return 
      */
-    namespace.Enemy = function() {
+    namespace.Enemy = function(containedByElement) {
+        this.parentElement = containedByElement;
+        
         this.initializeAsteroid();
     };
     
@@ -31,8 +33,10 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     namespace.Enemy.prototype.initializeAsteroid = function() {
         this.asteroidList = [];
         for (var i=0; i<10; i++) {
-            this.asteroidList.push(new window.WAF.test.starFighter.Asteroid("spriteAsteroid" + i, document.getElementById("backgroundStarfield").scrollLeft + window.innerWidth,
-                                                                            Math.floor(Math.random()*(window.innerHeight - 64) + document.getElementById("backgroundStarfield").scrollTop)));
+            this.asteroidList.push(new window.WAF.test.starFighter.Asteroid(this.parentElement, "spriteAsteroid" + i,
+                document.getElementById(this.parentElement).scrollLeft + document.getElementById(this.parentElement).clientWidth,
+                Math.floor(Math.random()*(document.getElementById(this.parentElement).clientHeight - 64) + document.getElementById(this.parentElement).scrollTop))
+            );
         }
     };
     
@@ -77,7 +81,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             this.asteroidList[i].update(gameTime);
             
             // remove asteroid if limit is cross
-            if (this.asteroidList[i].x < (document.getElementById("backgroundStarfield").scrollLeft)) {
+            if (this.asteroidList[i].x < (document.getElementById(this.parentElement).scrollLeft)) {
                 var asteroidElement = document.getElementById(this.asteroidList[i].id);
                 asteroidElement.parentNode.removeChild(asteroidElement);
                 this.asteroidList.splice(i,1);

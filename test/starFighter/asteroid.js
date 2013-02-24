@@ -15,14 +15,16 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     /**
      * Constructor.
      * 
-     * @param asteroidID ID of the asteroid to handle.
-     * @param x          Start position of asteroid on X axis.
-     * @param y          Start position of asteroid on Y axis. 
+     * @param containedByElement ID of the element this sprite is 'contained' by.
+     * @param asteroidID         ID of the asteroid to handle.
+     * @param x                  Start position of asteroid on X axis.
+     * @param y                  Start position of asteroid on Y axis. 
      * @return 
      */
-    namespace.Asteroid = function(asteroidID, x, y) {
+    namespace.Asteroid = function(containedByElement, asteroidID, x, y) {
+        this.parentElement = containedByElement;
         this.spriteList = [];
-        this.spriteList.push(new window.WAF.game.css.graphics.SpriteImage("backgroundStarfield", asteroidID, "asteroid"));
+        this.spriteList.push(new window.WAF.game.css.graphics.SpriteImage(this.parentElement, asteroidID, "asteroid"));
         
         this.id = asteroidID;
         this.x = x;
@@ -33,7 +35,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         this.size = Math.floor(Math.random()*3 + 1);
         this.rotation = 0;
         
-        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.spriteList[0].width, this.spriteList[0].height);
+        this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.width, this.height);
+        
+        // set starting position of sprite
+        this.spriteList[0].x = this.x;
+        this.spriteList[0].y = this.y;
     };
     
     /**

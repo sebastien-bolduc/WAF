@@ -76,6 +76,11 @@ window.WAF.test.background = window.WAF.test.background || {};
         fps = gameTime.averageFramePerSecond();
         tbf = gameTime.averageTimeBetweenFrame();
         
+        // update game...
+        for (var i=0; i<spriteList.length; i++) {
+            spriteList[i].translate(spriteList[i].x, spriteList[i].y);
+        }
+        
         // sprite...
         function move(sprite) {
             sprite.x += sprite.xIncrement;
@@ -93,8 +98,8 @@ window.WAF.test.background = window.WAF.test.background || {};
                 sprite.yIncrement = -sprite.yIncrement;
             }
         }
-        for (var i=0; i<spriteList.length; i++) {
-            move(spriteList[i]);
+        for (var j=0; j<spriteList.length; j++) {
+            move(spriteList[j]);
         }
         
         // keyboard...
@@ -144,9 +149,12 @@ window.WAF.test.background = window.WAF.test.background || {};
         document.getElementById("element1").innerHTML = "Average frame per second (fps): " + fps;
         document.getElementById("element2").innerHTML = "Average time between frame: " + tbf + " ms";
         
+        // background
+        background.draw();
+        
         // sprite
         for (var i=0; i<spriteList.length; i++) {
-            spriteList[i].translate(spriteList[i].x, spriteList[i].y);
+            spriteList[i].draw();
         }
         
         // call function of super class

@@ -27,49 +27,50 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
         
         this.id = backgroundID;
         this.curPosition = initPosition;                                    // current position on the background
-        document.getElementById(this.id).scrollLeft = this.curPosition.X;
-        document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     
     /**
      * Scroll background to the right.  Will stop at the end of it or loop if told
      * to do so.
      * 
-     * @param speed Speed at which the background is scrolled.
-     * @param loop  Loop the background (true or false).
+     * @param speed    Speed at which the background is scrolled.
+     * @param loopFlag Loop the background (true or false).
      * @return
      */
-    namespace.BackgroundImage.prototype.scrollRight = function(speed, loop) {
-        if (loop) {
+    namespace.BackgroundImage.prototype.scrollRight = function(speed, loopFlag) {
+        var scrollWidth = document.getElementById(this.id).scrollWidth;     // width of the background
+        var clientWidth = document.getElementById(this.id).clientWidth;     // width of the 'window'
+        
+        if (loopFlag) {
             this.curPosition.X += speed;
-            if (this.curPosition.X >= (document.getElementById(this.id).scrollWidth / 3) * 2) {
-                this.curPosition.X -= (document.getElementById(this.id).scrollWidth / 3); 
+            if (this.curPosition.X >= (scrollWidth / 3) * 2) {
+                this.curPosition.X -= (scrollWidth / 3); 
             }   
         } else {
-            if (this.curPosition.X < (document.getElementById(this.id).scrollWidth - document.getElementById(this.id).clientWidth)) {
+            if (this.curPosition.X < (scrollWidth - clientWidth)) {
                 this.curPosition.X += speed;
             } else {
-                this.curPosition.X = (document.getElementById(this.id).scrollWidth - document.getElementById(this.id).clientWidth); 
+                this.curPosition.X = (scrollWidth - clientWidth); 
             }
         }
-         
-        // scrolling the background to the new position
-        document.getElementById(this.id).scrollLeft = this.curPosition.X;
     };
     
     /**
      * Scroll background to the left.  Will stop at the end of it or loop if told
      * to do so.
      * 
-     * @param speed Speed at which the background is scrolled.
-     * @param loop  Loop the background (true or false).
+     * @param speed    Speed at which the background is scrolled.
+     * @param loopFlag Loop the background (true or false).
      * @return
      */
-    namespace.BackgroundImage.prototype.scrollLeft = function(speed, loop) {
-        if (loop) {
+    namespace.BackgroundImage.prototype.scrollLeft = function(speed, loopFlag) {
+        var scrollWidth = document.getElementById(this.id).scrollWidth;     // width of the background
+        var clientWidth = document.getElementById(this.id).clientWidth;     // width of the 'window'
+        
+        if (loopFlag) {
             this.curPosition.X -= speed;
-            if (this.curPosition.X <= ((document.getElementById(this.id).scrollWidth / 3) - document.getElementById(this.id).clientWidth)) {
-                this.curPosition.X += ((document.getElementById(this.id).scrollWidth / 3) * 1);
+            if (this.curPosition.X <= ((scrollWidth / 3) - clientWidth)) {
+                this.curPosition.X += ((scrollWidth / 3) * 1);
             }
         } else {
             if (this.curPosition.X > 0) {
@@ -78,24 +79,24 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
                 this.curPosition.X = 0;
             }
         }
-         
-        // scrolling the background to the new position
-        document.getElementById(this.id).scrollLeft = this.curPosition.X;
     };
     
     /**
      * Scroll background Up.  Will stop at the end of it or loop if told
      * to do so.
      * 
-     * @param speed Speed at which the background is scrolled.
-     * @param loop  Loop the background (true or false).
+     * @param speed    Speed at which the background is scrolled.
+     * @param loopFlag Loop the background (true or false).
      * @return
      */
-    namespace.BackgroundImage.prototype.scrollUp = function(speed, loop) {
-        if (loop) {
+    namespace.BackgroundImage.prototype.scrollUp = function(speed, loopFlag) {
+        var scrollHeight = document.getElementById(this.id).scrollHeight;   // height of the background
+        var clientHeight = document.getElementById(this.id).clientHeight;   // height of the 'window'
+        
+        if (loopFlag) {
             this.curPosition.Y -= speed;
-            if (this.curPosition.Y <= ((document.getElementById(this.id).scrollHeight / 3) - document.getElementById(this.id).clientHeight)) {
-                this.curPosition.Y += ((document.getElementById(this.id).scrollHeight / 3) * 1);
+            if (this.curPosition.Y <= ((scrollHeight / 3) - clientHeight)) {
+                this.curPosition.Y += ((scrollHeight / 3) * 1);
             }
         } else {
             if (this.curPosition.Y > 0) {
@@ -104,34 +105,42 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
                 this.curPosition.Y = 0;
             }
         }
-         
-        // scrolling the background to the new position
-        document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     
     /**
      * Scroll background down.  Will stop at the end of it or loop if told
      * to do so.
      * 
-     * @param speed Speed at which the background is scrolled.
-     * @param loop  Loop the background (true or false).
+     * @param speed    Speed at which the background is scrolled.
+     * @param loopFlag Loop the background (true or false).
      * @return
      */
     namespace.BackgroundImage.prototype.scrollDown = function(speed, loop) {
+        var scrollHeight = document.getElementById(this.id).scrollHeight;   // height of the background
+        var clientHeight = document.getElementById(this.id).clientHeight;   // height of the 'window'
+        
         if (loop) {
             this.curPosition.Y += speed;
-            if (this.curPosition.Y >= (document.getElementById(this.id).scrollHeight / 3) * 2) {
-                this.curPosition.Y -= (document.getElementById(this.id).scrollHeight / 3); 
+            if (this.curPosition.Y >= (scrollHeight / 3) * 2) {
+                this.curPosition.Y -= (scrollHeight / 3); 
             }  
         } else {
-            if (this.curPosition.Y < (document.getElementById(this.id).scrollHeight - document.getElementById(this.id).clientHeight)) {
+            if (this.curPosition.Y < (scrollHeight - clientHeight)) {
                 this.curPosition.Y += speed;
             } else {
-                this.curPosition.Y = (document.getElementById(this.id).scrollHeight - document.getElementById(this.id).clientHeight);
+                this.curPosition.Y = (scrollHeight - clientHeight);
             }
         }
-        
-        // scrolling the background to the new position
+    };
+    
+    /**
+     * Draw the background.
+     * 
+     * @param
+     * @return
+     */
+    namespace.BackgroundImage.prototype.draw = function() {
+        document.getElementById(this.id).scrollLeft = this.curPosition.X;
         document.getElementById(this.id).scrollTop = this.curPosition.Y;
     };
     

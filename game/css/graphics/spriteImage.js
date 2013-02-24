@@ -41,9 +41,6 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      * @return 
      */
     namespace.SpriteImage.prototype.translate = function(x, y) {
-        var sprite = document.getElementById(this.id);
-        
-        sprite.style.WebkitTransform = "translate(" + x + "px," + y + "px)";
         this.x = x;
         this.y = y;
     };
@@ -55,9 +52,6 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      * @return
      */
     namespace.SpriteImage.prototype.scale = function(x) {
-        var sprite = document.getElementById(this.id);
-        
-        sprite.style.WebkitTransform = "scale(" + x + ")";
         this.size = x;            
     };
     
@@ -68,9 +62,6 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      * @return
      */
     namespace.SpriteImage.prototype.rotate = function(x) {
-        var sprite = document.getElementById(this.id);
-        
-        sprite.style.WebkitTransform = "rotate(" + x + "deg)";
         this.rotation = x;            
     };
     
