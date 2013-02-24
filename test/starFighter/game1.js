@@ -77,6 +77,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
                 starship.destroyPulse(i);
             }
         }
+        for (var j=0; j<enemy.asteroidList.length; j++) {
+            starship.checkHitbox(enemy.asteroidList[j].hitbox);
+        }
         
         // sprite...
         function move(sprite, x, y) {
@@ -126,7 +129,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
             move(starship, 0, speed);
         }
-        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space)) {
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space) && starship.size == 1) {
             starship.shoot();
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {

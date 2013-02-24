@@ -27,9 +27,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         this.id = asteroidID;
         this.x = x;
         this.y = y;
-        this.speed = Math.floor(Math.random()*5 + 1);
         this.width = this.spriteList[0].width;
         this.height = this.spriteList[0].height;
+        this.speed = Math.floor(Math.random()*5 + 1);
+        this.size = Math.floor(Math.random()*3 + 1);
+        this.rotation = 0;
         
         this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, this.spriteList[0].width, this.spriteList[0].height);
     };
@@ -41,7 +43,21 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      * @return
      */
     namespace.Asteroid.prototype.update = function(gameTime) {
+        // move asteroid
         this.x -= Math.ceil((this.speed / 16) * gameTime.elapsedGameTime);
+        
+        // correct rotation
+        this.rotation += Math.ceil((this.speed / 16) * gameTime.elapsedGameTime);
+        if (this.rotation > 360) {
+            this.rotation -= 360;
+        }
+        
+        for (var i=0; i<this.spriteList.length; i++) {
+            this.spriteList[i].translate(this.x, this.y);
+            this.spriteList[i].scale(this.size);
+            this.spriteList[i].rotate(this.rotation);
+            this.hitbox.translate(this.spriteList[i].x, this.spriteList[i].y);
+        }
     };
     
     /**
@@ -52,9 +68,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      */
     namespace.Asteroid.prototype.draw = function() {
         for (var i=0; i<this.spriteList.length; i++) {
-            this.spriteList[i].translate(this.x, this.y);
-            this.hitbox.translate(this.spriteList[i].x, this.spriteList[i].y);
-        }  
+            this.spriteList[i].draw();
+        }
     };
     
     // private methods and properties

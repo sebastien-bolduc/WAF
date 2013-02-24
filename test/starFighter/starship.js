@@ -27,6 +27,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         this.y = 0;
         this.width = spriteList[0].width;
         this.height = spriteList[0].height;
+        this.size = 1;
         
         this.hitbox = new window.WAF.game.Rectangle(this.x, this.y, spriteList[0].width, spriteList[0].height);
         
@@ -64,21 +65,45 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     };
     
     /**
+     * Check the hitbox of the sprite for collision.
+     * 
+     * @param hitbox Hitbox to compare to.
+     * @return
+     */
+    namespace.Starship.prototype.checkHitbox = function(hitbox) {
+        if (this.hitbox.intersects(hitbox) && this.size == 1) {
+            this.size = 0.5;
+            
+            var self = this;
+            setTimeout(function() {
+                self.size = 1;
+            }, 5000);
+        }
+    };
+    
+    /**
      * Update the pulse shoot by the starship.
      * 
      * @param gameTime GameTime object to update with the function call.
      * @return
      */
     namespace.Starship.prototype.update = function(gameTime) {
+        // update starship
+        for (var i=0; i<spriteList.length; i++) {
+            spriteList[i].translate(this.x, this.y);
+            spriteList[i].scale(this.size);
+            this.hitbox.translate(spriteList[i].x, spriteList[i].y);
+        }
+        
         // update pulse
-        for (var i=0; i<this.pulseList.length; i++) {
-            this.pulseList[i].update(gameTime);
+        for (var j=0; j<this.pulseList.length; j++) {
+            this.pulseList[j].update(gameTime);
             
             // remove pulse if limit is cross
-            if (this.pulseList[i].x > (document.getElementById("backgroundStarfield").scrollLeft + window.innerWidth)) {
-                var pulseElement = document.getElementById(this.pulseList[i].id);
+            if (this.pulseList[j].x > (document.getElementById("backgroundStarfield").scrollLeft + window.innerWidth)) {
+                var pulseElement = document.getElementById(this.pulseList[j].id);
                 pulseElement.parentNode.removeChild(pulseElement);
-                this.pulseList.splice(i,1);
+                this.pulseList.splice(j,1);
             }
         }
     };
@@ -92,8 +117,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     namespace.Starship.prototype.draw = function() {
         // draw starship
         for (var i=0; i<spriteList.length; i++) {
-            spriteList[i].translate(this.x, this.y);
-            this.hitbox.translate(spriteList[i].x, spriteList[i].y);
+            spriteList[i].draw();
         }
         
         // draw pulse

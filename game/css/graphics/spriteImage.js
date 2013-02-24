@@ -29,6 +29,8 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
         this.y = 0;
         this.width = document.getElementById(this.id).scrollWidth;      // hack to get sprite dimension
         this.height = document.getElementById(this.id).scrollHeight;
+        this.size = 1;
+        this.rotation = 0;
     };
     
     /**
@@ -41,9 +43,53 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
     namespace.SpriteImage.prototype.translate = function(x, y) {
         var sprite = document.getElementById(this.id);
         
-        sprite.style["WebkitTransform"] = "translate(" + x + "px," + y + "px)";
+        sprite.style.WebkitTransform = "translate(" + x + "px," + y + "px)";
         this.x = x;
         this.y = y;
+    };
+    
+    /**
+     * Scale a sprite.
+     * 
+     * @param x Scale sprite by a factor of x.
+     * @return
+     */
+    namespace.SpriteImage.prototype.scale = function(x) {
+        var sprite = document.getElementById(this.id);
+        
+        sprite.style.WebkitTransform = "scale(" + x + ")";
+        this.size = x;            
+    };
+    
+    /**
+     * Rotate a sprite.
+     * 
+     * @param x Rotate sprite of x degree.
+     * @return
+     */
+    namespace.SpriteImage.prototype.rotate = function(x) {
+        var sprite = document.getElementById(this.id);
+        
+        sprite.style.WebkitTransform = "rotate(" + x + "deg)";
+        this.rotation = x;            
+    };
+    
+    /**
+     * Draw a sprite.
+     * 
+     * @param
+     * @return
+     */
+    namespace.SpriteImage.prototype.draw = function() {
+        var sprite = document.getElementById(this.id);
+        
+        sprite.style.WebkitTransform = "translate(" + this.x + "px," + this.y + "px)";
+        if (this.size != 1) {
+            sprite.style.WebkitTransform += " scale(" + this.size + ")";
+        }
+        if (this.rotation !== 0) {
+            sprite.style.WebkitTransform += " rotate(" + this.rotation + "deg)";
+        }
     };
     
     // private methods and properties
