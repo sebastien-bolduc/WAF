@@ -51,6 +51,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // enemy
         enemy = new window.WAF.test.starFighter.Enemy("backgroundStarfield");
         
+        // music
+        music = new window.WAF.audio.Music("http://incompetech.com/music/royalty-free/mp3-royaltyfree/Poofy%20Reel.mp3");
+        
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
     };
@@ -157,6 +160,13 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.w)) {
             enemy.waveshipFlag = true;
         }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.m)) {
+            if (music.playing) {
+                music.pause();    
+            } else {
+                music.play();
+            }
+        }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
                 this.charmBar.hideTopCharmBar("status");
@@ -208,5 +218,6 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     var background = null;
     var starship = null;
     var enemy = null;
+    var music = null;
     
 }(window.WAF.test.starFighter = window.WAF.test.starFighter || {}));

@@ -37,6 +37,10 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         this.spriteList[0].y = this.y;
         
         this.pulseList = [];
+        
+        // sound
+        this.pulseSound = new window.WAF.audio.SoundEffect("http://www.wyomingwebdesign.com/files/sound_files/laser.wav");
+        //this.pulseSound = new window.WAF.audio.SoundEffect("sound/laser.wav");
     };
     
     /**
@@ -55,6 +59,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         
         this.pulseList.push(new window.WAF.test.starFighter.Pulse(this.parentElement, pulseID, this.x, this.y));
+        
+        // sound
+        this.pulseSound.play();
     };
     
     /**

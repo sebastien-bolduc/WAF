@@ -22,14 +22,16 @@ body {
     position: absolute;
     width: 3508px;
     height: 1917px;
-    background: url(http://onlyhdwallpapers.com/wallpaper/starfield_high_resolution_desktop_3508x1917_hd-wallpaper-455227.jpg) no-repeat center;
+    /*background: url(http://onlyhdwallpapers.com/wallpaper/starfield_high_resolution_desktop_3508x1917_hd-wallpaper-455227.jpg) no-repeat center;*/
+    background: url(image/starfield_high_resolution_desktop_3508x1917_hd-wallpaper-455227.jpg) no-repeat center;
 }
 
 .starship {
     position: absolute;
     width: 70px;
     height: 64px;
-    background: url(http://i4.photobucket.com/albums/y101/Albertoness/Sprites/Fighter_ship.png)
+    /*background: url(http://i4.photobucket.com/albums/y101/Albertoness/Sprites/Fighter_ship.png)*/
+    background: url(image/Fighter_ship.png)
 }
 
 .pulse {
@@ -44,19 +46,22 @@ body {
     position: absolute;
     width: 64px;
     height: 64px;
-    background: url(http://i38.tinypic.com/2cs73i9.png)
+    /*background: url(http://i38.tinypic.com/2cs73i9.png)*/
+    background: url(image/2cs73i9.png)
 }
 
 .waveship {
     position: absolute;
     width: 96px;
     height: 96px;
-    background: url(http://www.majhost.com/gallery/AshaZev/games/Kiwi/large_enemy_ship-1.png);
+    /*background: url(http://www.majhost.com/gallery/AshaZev/games/Kiwi/large_enemy_ship-1.png);*/
+    background: url(image/large_enemy_ship-1.png);
 }
 
 .rocketship {
     position: absolute;
     width: 64px;
     height: 64px;
-    background: url(http://a.imageshack.us/img295/6822/testship2.png);
+    /*background: url(http://a.imageshack.us/img295/6822/testship2.png);*/
+    background: url(image/testship2.png);
 }

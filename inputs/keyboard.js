@@ -16,6 +16,7 @@ window.WAF.inputs.Keys.Right = 39;  // Right cursor key
 window.WAF.inputs.Keys.Down = 40;   // Down cursor key
 window.WAF.inputs.Keys.Space = 32;  // Space cursor key 
 window.WAF.inputs.Keys.a = 65;      // a key
+window.WAF.inputs.Keys.m = 77;      // m key
 window.WAF.inputs.Keys.r = 82;      // r key
 window.WAF.inputs.Keys.s = 83;      // s key
 window.WAF.inputs.Keys.w = 87;      // w key
