@@ -20,8 +20,13 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      */
     namespace.Enemy = function(containedByElement) {
         this.parentElement = containedByElement;
+        this.asteroidFieldFlag = false;
+        this.waveshipFlag = false;
+        this.rocketshipFlag = false;
         
-        this.initializeAsteroid();
+        this.asteroidList = [];
+        this.waveshipList = [];
+        this.rocketshipList = [];
     };
     
     /**
@@ -31,11 +36,67 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
      * @return
      */
     namespace.Enemy.prototype.initializeAsteroid = function() {
-        this.asteroidList = [];
-        for (var i=0; i<10; i++) {
-            this.asteroidList.push(new window.WAF.test.starFighter.Asteroid(this.parentElement, "spriteAsteroid" + i,
+        for (var i=this.asteroidList.length; i<10; i++) {
+            // make sure we have a unique ID for the asteroid
+            var modifier = 1;
+            var asteroidID = "spriteAsteroid" + i;
+            while(document.getElementById(asteroidID)) {
+                asteroidID = "spriteAsteroid" + (this.asteroidList.length + modifier);
+                modifier++;
+            }
+            
+            // create asteroid
+            this.asteroidList.push(new window.WAF.test.starFighter.Asteroid(this.parentElement, asteroidID,
                 document.getElementById(this.parentElement).scrollLeft + document.getElementById(this.parentElement).clientWidth,
                 Math.floor(Math.random()*(document.getElementById(this.parentElement).clientHeight - 64) + document.getElementById(this.parentElement).scrollTop))
+            );
+        }
+    };
+    
+    /**
+     * Initialize the waveships.
+     * 
+     * @param
+     * @return
+     */
+    namespace.Enemy.prototype.initializeWaveship = function() {
+        var startingHeight = Math.floor(Math.random()*(document.getElementById(this.parentElement).clientHeight - 96) + document.getElementById(this.parentElement).scrollTop);
+        for (var i=0; i<6; i++) {
+            // make sure we have a unique ID for the waveship
+            var modifier = 1;
+            var waveshipID = "spriteWaveship" + i;
+            while(document.getElementById(waveshipID)) {
+                waveshipID = "spriteWaveship" + (this.waveshipList.length + modifier);
+                modifier++;
+            }
+            
+            // create waveship
+            this.waveshipList.push(new window.WAF.test.starFighter.Waveship(this.parentElement, waveshipID,
+                document.getElementById(this.parentElement).scrollLeft + document.getElementById(this.parentElement).clientWidth + (i * 96), startingHeight)
+            );
+        }
+    };
+    
+    /**
+     * Initialize the rocketships.
+     * 
+     * @param
+     * @return
+     */
+    namespace.Enemy.prototype.initializeRocketship = function() {
+        var startingWidth = Math.floor(Math.random()*(document.getElementById(this.parentElement).clientWidth - 64) + document.getElementById(this.parentElement).scrollLeft);
+        for (var i=0; i<1; i++) {
+            // make sure we have a unique ID for the waveship
+            var modifier = 1;
+            var rocketshipID = "spriteRocketship" + i;
+            while(document.getElementById(rocketshipID)) {
+                rocketshipID = "spriteRocketship" + (this.rocketshipList.length + modifier);
+                modifier++;
+            }
+            
+            // create rocketship
+            this.rocketshipList.push(new window.WAF.test.starFighter.Rocketship(this.parentElement, rocketshipID,
+                startingWidth, document.getElementById(this.parentElement).scrollTop + document.getElementById(this.parentElement).clientHeight + (i * 64))
             );
         }
     };
@@ -53,6 +114,30 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     };
     
     /**
+     * Destroy a waveship and everything link to it.
+     * 
+     * @param indexOf Position of our element in the list.
+     * @return
+     */
+    namespace.Enemy.prototype.destroyWaveship = function(indexOf) {
+        var waveshipElement = document.getElementById(this.waveshipList[indexOf].id);
+        waveshipElement.parentNode.removeChild(waveshipElement);
+        this.waveshipList.splice(indexOf,1);
+    };
+    
+    /**
+     * Destroy a rocketship and everything link to it.
+     * 
+     * @param indexOf Position of our element in the list.
+     * @return
+     */
+    namespace.Enemy.prototype.destroyRocketship = function(indexOf) {
+        var rocketshipElement = document.getElementById(this.rocketshipList[indexOf].id);
+        rocketshipElement.parentNode.removeChild(rocketshipElement);
+        this.rocketshipList.splice(indexOf,1);
+    };
+    
+    /**
      * Check the hitbox of the sprite for collision.
      * 
      * @param hitbox Hitbox to compare to.
@@ -62,6 +147,40 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         for (var i=0; i<this.asteroidList.length; i++) {
             if (this.asteroidList[i].hitbox.intersects(hitbox)) {
                 this.destroyAsteroid(i);
+                return true;
+            }
+        }
+        
+        return false;
+    };
+    
+    /**
+     * Check the hitbox of the sprite for collision.
+     * 
+     * @param hitbox Hitbox to compare to.
+     * @return True or false depending on a hit.
+     */
+    namespace.Enemy.prototype.checkWaveshipHitbox = function(hitbox) {
+        for (var i=0; i<this.waveshipList.length; i++) {
+            if (this.waveshipList[i].hitbox.intersects(hitbox)) {
+                this.destroyWaveship(i);
+                return true;
+            }
+        }
+        
+        return false;
+    };
+    
+    /**
+     * Check the hitbox of the sprite for collision.
+     * 
+     * @param hitbox Hitbox to compare to.
+     * @return True or false depending on a hit.
+     */
+    namespace.Enemy.prototype.checkRocketshipHitbox = function(hitbox) {
+        for (var i=0; i<this.rocketshipList.length; i++) {
+            if (this.rocketshipList[i].hitbox.intersects(hitbox)) {
+                this.destroyRocketship(i);
                 return true;
             }
         }
@@ -89,8 +208,48 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         
         // recreate the asteroid field
-        if (this.asteroidList.length === 0) {
+        if (this.asteroidFieldFlag) {
             this.initializeAsteroid();
+        }
+        
+        // -----------------------------------------------------------------------------------------
+        
+        // waveship
+        for (i=0; i<this.waveshipList.length; i++) {
+            this.waveshipList[i].update(gameTime);
+            
+            // remove waveship if limit is cross
+            if (this.waveshipList[i].x < (document.getElementById(this.parentElement).scrollLeft)) {
+                var waveshipElement = document.getElementById(this.waveshipList[i].id);
+                waveshipElement.parentNode.removeChild(waveshipElement);
+                this.waveshipList.splice(i,1);
+            }
+        }
+        
+        // recreate the waveships
+        if (this.waveshipFlag) {
+            this.initializeWaveship();
+            this.waveshipFlag = false;
+        }
+        
+        // -----------------------------------------------------------------------------------------
+        
+        // rocketship
+        for (i=0; i<this.rocketshipList.length; i++) {
+            this.rocketshipList[i].update(gameTime);
+            
+            // remove rocketship if limit is cross
+            if (this.rocketshipList[i].y < (document.getElementById(this.parentElement).scrollTop)) {
+                var rocketshipElement = document.getElementById(this.rocketshipList[i].id);
+                rocketshipElement.parentNode.removeChild(rocketshipElement);
+                this.rocketshipList.splice(i,1);
+            }
+        }
+        
+        // recreate the rocketships
+        if (this.rocketshipFlag) {
+            this.initializeRocketship();
+            this.rocketshipFlag = false;
         }
     };
     
@@ -104,6 +263,16 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // draw asteroid
         for (var i=0; i<this.asteroidList.length; i++) {
             this.asteroidList[i].draw();
+        }
+        
+        // draw waveship
+        for (i=0; i<this.waveshipList.length; i++) {
+            this.waveshipList[i].draw();
+        }
+        
+        // draw rocketship
+        for (i=0; i<this.rocketshipList.length; i++) {
+            this.rocketshipList[i].draw();
         }
     };
     

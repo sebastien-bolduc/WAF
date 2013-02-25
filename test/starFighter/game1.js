@@ -72,13 +72,29 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         enemy.update(gameTime);
         
         // check collision...
-        for (var i=0; i<starship.pulseList.length; i++) {
+        for (var i=0; i<starship.pulseList.length; i++) {                   // pulse
             if (enemy.checkAsteroidHitbox(starship.pulseList[i].hitbox)) {
                 starship.destroyPulse(i);
             }
         }
-        for (var j=0; j<enemy.asteroidList.length; j++) {
+        for (i=0; i<starship.pulseList.length; i++) {
+            if (enemy.checkWaveshipHitbox(starship.pulseList[i].hitbox)) {
+                starship.destroyPulse(i);
+            }
+        }
+        for (i=0; i<starship.pulseList.length; i++) {
+            if (enemy.checkRocketshipHitbox(starship.pulseList[i].hitbox)) {
+                starship.destroyPulse(i);
+            }
+        }
+        for (var j=0; j<enemy.asteroidList.length; j++) {                   // starship
             starship.checkHitbox(enemy.asteroidList[j].hitbox);
+        }
+        for (j=0; j<enemy.waveshipList.length; j++) {
+            starship.checkHitbox(enemy.waveshipList[j].hitbox);
+        }
+        for (j=0; j<enemy.rocketshipList.length; j++) {
+            starship.checkHitbox(enemy.rocketshipList[j].hitbox);
         }
         
         // sprite...
@@ -131,6 +147,15 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space) && starship.size == 1) {
             starship.shoot();
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.a)) {
+            enemy.asteroidFieldFlag = !enemy.asteroidFieldFlag;
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.r)) {
+            enemy.rocketshipFlag = true;
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.w)) {
+            enemy.waveshipFlag = true;
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {

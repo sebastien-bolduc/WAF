@@ -36,6 +36,7 @@ body {
     position: absolute;
     width: 10px;
     height: 10px;
+    border-radius: 5px 5px 5px 5px;
     background: yellow;
 }
 
@@ -44,4 +45,18 @@ body {
     width: 64px;
     height: 64px;
     background: url(http://i38.tinypic.com/2cs73i9.png)
+}
+
+.waveship {
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    background: url(http://www.majhost.com/gallery/AshaZev/games/Kiwi/large_enemy_ship-1.png);
+}
+
+.rocketship {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background: url(http://a.imageshack.us/img295/6822/testship2.png);
 }
