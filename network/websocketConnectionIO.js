@@ -1,12 +1,13 @@
 /**
  * @author      Sébastien Bolduc    <sebastien.bolduc@gmail.com>
  * @version     0.0                 (current version number of program)
- * @since       2013-02-25          (the version of the package this class was first added to)
+ * @since       2013-02-26          (the version of the package this class was first added to)
  */
 
 // create global namespace
 window.WAF = window.WAF || {};
 window.WAF.network = window.WAF.network || {};
+window.WAF.io = io;                                 // define by Node.js
 
 // using IIFE (Immediately-Invoked Function Expression) to give each file its own local scope
 (function(namespace, undefined) {
@@ -17,7 +18,7 @@ window.WAF.network = window.WAF.network || {};
      * @param
      * @return 
      */
-    namespace.WebSocketConnection = function() {
+    namespace.WebSocketConnectionIO = function() {
         this.connection = null;
         this.onOpenFunction = null;
         this.onCloseFunction = null;
@@ -31,10 +32,8 @@ window.WAF.network = window.WAF.network || {};
      * @param
      * @return True of False depending on the state of the connection.
      */
-    namespace.WebSocketConnection.prototype.isOpen = function() {
-        if (!this.connection) {
-            return false;
-        } else if (this.connection.readyState === 0 || this.connection.readyState === 3) {
+    namespace.WebSocketConnectionIO.prototype.isOpen = function() {
+        if (!this.connection || !this.connection.socket.connected) {
             return false;
         }
         
@@ -44,12 +43,17 @@ window.WAF.network = window.WAF.network || {};
     /**
      * Open a WebSockect connection.
      * 
-     * @param url Url of the server to connect to.
+     * @param
      * @return
      */
-    namespace.WebSocketConnection.prototype.open = function(url, protocole) {
-        this.connection =  new WebSocket(url, protocole);
-        
+    namespace.WebSocketConnectionIO.prototype.open = function() {
+        if (!this.connection) {
+            this.connection = window.WAF.io.connect(null,{'auto connect': false}); 
+            this.connection.socket.connect();
+        } else {
+            this.connection.socket.reconnect();
+        }
+            
         this.setOnOpen();
         this.setOnClose();
         this.setOnMessage();
@@ -62,8 +66,8 @@ window.WAF.network = window.WAF.network || {};
      * @param
      * @return
      */
-    namespace.WebSocketConnection.prototype.close = function() {
-        this.connection.close();
+    namespace.WebSocketConnectionIO.prototype.close = function() {
+        this.connection.socket.disconnect();
     };
     
     /**
@@ -72,8 +76,8 @@ window.WAF.network = window.WAF.network || {};
      * @param data Data to be send.
      * @return
      */
-    namespace.WebSocketConnection.prototype.send = function(data) {
-        if (typeof data !== "undefined") {
+    namespace.WebSocketConnectionIO.prototype.send = function(data) {
+        if (typeof data !== "undefined" && this.connection !== null && this.connection.socket.connected) {
             this.connection.send(data);
         }
     };
@@ -84,15 +88,16 @@ window.WAF.network = window.WAF.network || {};
      * @param functionToCall Function link to the 'onopen' event.
      * @return
      */
-    namespace.WebSocketConnection.prototype.setOnOpen = function(functionToCall) {
+    namespace.WebSocketConnectionIO.prototype.setOnOpen = function(functionToCall) {
         // set a default case
         if (typeof functionToCall !== "undefined") {
             this.onOpenFunction = functionToCall;  
         } else if (this.onOpenFunction === null) {
-            this.onOpenFunction = function(e) { alert('Open socket: ' + e.data); };
+            this.onOpenFunction = function(data) { alert('Open socket: ' + data); };
         }
         
-        this.connection.onopen = this.onOpenFunction;
+        this.connection.on('connect', this.onOpenFunction);
+        this.connection.on('reconnect', function() { alert('reconnecting...')});
     };
     
     /**
@@ -101,15 +106,15 @@ window.WAF.network = window.WAF.network || {};
      * @param functionToCall Function link to the 'onclose' event.
      * @return 
      */
-    namespace.WebSocketConnection.prototype.setOnClose = function(functionToCall) {
+    namespace.WebSocketConnectionIO.prototype.setOnClose = function(functionToCall) {
         // set a default case
         if (typeof functionToCall !== "undefined") {
             this.onCloseFunction = functionToCall;  
         } else if (this.onCloseFunction === null) {
-            this.onCloseFunction = function(e) { alert('Close socket: ' + e.data); };
+            this.onCloseFunction = function(data) { alert('Close socket: ' + data); };
         }
-        
-        this.connection.onclose = this.onCloseFunction;
+    
+        this.connection.on('disconnect', this.onCloseFunction);
     };
     
     /**
@@ -118,15 +123,15 @@ window.WAF.network = window.WAF.network || {};
      * @param functionToCall Function link to the 'onmessage' event.
      * @return 
      */
-    namespace.WebSocketConnection.prototype.setOnMessage = function(functionToCall) {
+    namespace.WebSocketConnectionIO.prototype.setOnMessage = function(functionToCall) {
         // set a default case
         if (typeof functionToCall !== "undefined") {
             this.onMessageFunction = functionToCall;  
         } else if (this.onMessageFunction === null) {
-            this.onMessageFunction = function(e) { alert('Message: ' + e.data); };
+            this.onMessageFunction = function(data) { alert('Message: ' + data); };
         }
         
-        this.connection.onmessage = this.onMessageFunction;
+        this.connection.on('message', this.onMessageFunction);
     };
     
     /**
@@ -135,15 +140,15 @@ window.WAF.network = window.WAF.network || {};
      * @param functionToCall Function link to the 'onerror' event.
      * @return 
      */
-    namespace.WebSocketConnection.prototype.setOnError = function(functionToCall) {
+    namespace.WebSocketConnectionIO.prototype.setOnError = function(functionToCall) {
         // set a default case
         if (typeof functionToCall !== "undefined") {
             this.onErrorFunction = functionToCall;  
         } else if (this.onErrorFunction === null) {
-            this.onErrorFunction = function(e) { alert('Error: ' + e.data); };
+            this.onErrorFunction = function(data) { alert('Error: ' + data); };
         }
         
-        this.connection.onerror = this.onErrorFunction;
+        this.connection.on('error', this.onErrorFunction);
     };
     
     // private methods and properties

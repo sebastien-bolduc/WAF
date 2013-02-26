@@ -55,7 +55,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         music = new window.WAF.audio.Music("http://incompetech.com/music/royalty-free/mp3-royaltyfree/Poofy%20Reel.mp3");
         
         // network
-        network = new window.WAF.network.WebSocketConnection();
+        network = new window.WAF.network.WebSocketConnectionIO();
         
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
@@ -173,7 +173,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.n)) {                                // network
             if (!network.isOpen()) {
                 console.log("open WebSocket connection...");
-                network.open("ws://echo.websocket.org/");
+                //network.open("ws://echo.websocket.org/");
+                network.open();
             } else {
                 console.log("close WebSocket connection...");
                 network.close();
