@@ -54,6 +54,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // music
         music = new window.WAF.audio.Music("http://incompetech.com/music/royalty-free/mp3-royaltyfree/Poofy%20Reel.mp3");
         
+        // network
+        network = new window.WAF.network.WebSocketConnection();
+        
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
     };
@@ -151,21 +154,34 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space) && starship.size == 1) {
             starship.shoot();
         }
-        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.a)) {
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.a)) {                                // asteroid
             enemy.asteroidFieldFlag = !enemy.asteroidFieldFlag;
         }
-        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.r)) {
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.r)) {                                // rocketship
             enemy.rocketshipFlag = true;
         }
-        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.w)) {
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.w)) {                                // waveship
             enemy.waveshipFlag = true;
         }
-        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.m)) {
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.m)) {                                // music
             if (music.playing) {
                 music.pause();    
             } else {
                 music.play();
             }
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.n)) {                                // network
+            if (!network.isOpen()) {
+                console.log("open WebSocket connection...");
+                network.open("ws://echo.websocket.org/");
+            } else {
+                console.log("close WebSocket connection...");
+                network.close();
+            }
+        }
+        if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.p)) {                                // message
+            console.log("sending message...");
+            network.send("test startFighter");
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
@@ -219,5 +235,6 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
     var starship = null;
     var enemy = null;
     var music = null;
+    var network = null;
     
 }(window.WAF.test.starFighter = window.WAF.test.starFighter || {}));

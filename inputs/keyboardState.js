@@ -39,6 +39,9 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @return 
      */
     namespace.KeyboardState.prototype.handleKeyDown = function(event) {
+        if (!this.isKeyPressed[event.keyCode]) {
+            this.isKeyPressedOnce[event.keyCode] = true;
+        }
         this.isKeyPressed[event.keyCode] = true;
     };
 
@@ -69,12 +72,9 @@ window.WAF.inputs = window.WAF.inputs || {};
      * @return {boolean} Key pressed or not
      */
     namespace.KeyboardState.prototype.isKeyDownOnce = function(key) {
-        if (this.isKeyPressed[key] === true && this.isKeyPressedOnce[key] === false) {
-            this.isKeyPressedOnce[key] = true;
-            return true;
-        } else if (this.isKeyPressed[key] === false && this.isKeyPressedOnce[key] === true) {
+        if (this.isKeyPressedOnce[key]) {
             this.isKeyPressedOnce[key] = false;
-            return false;
+            return true;
         } else {
             return false;
         }
