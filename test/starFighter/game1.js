@@ -56,6 +56,18 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         
         // network
         network = new window.WAF.network.WebSocketConnectionIO();
+        network.setOnOpen();
+        network.setOnClose();
+        network.setOnMessage(function(data) {
+            var element = data.split(" ");
+            if (element[0] == "position") {
+                starship.x = element[1];
+                starship.y = element[2];
+            } else {
+                alert('Message: ' + data);
+            }
+        });
+        network.setOnError();
         
         // call function of super class
         window.WAF.game.Game.prototype.initialize.call(this);
@@ -134,6 +146,9 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             if ((sprite.y - document.getElementById("backgroundStarfield").scrollTop) < (window.innerHeight / 4 * 1)) {
                 background.scrollUp(-y, false);
             }
+            
+            // network
+            network.send("1 " + starship.x + " " + starship.y);
         }
         
         // keyboard...
@@ -182,7 +197,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.p)) {                                // message
             console.log("sending message...");
-            network.send("test startFighter");
+            network.send("dring dring !!!");
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
@@ -195,10 +210,18 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // touch...
         var touchState = this.touch.getState();
         if (touchState.hasBeenTouched()) {
-            if (this.charmBar.top) {
+            /*if (this.charmBar.top) {
                 this.charmBar.hideTopCharmBar("status");
             } else {
                 this.charmBar.showTopCharmBar("status");
+            }*/
+            if (!network.isOpen()) {
+                console.log("open WebSocket connection...");
+                //network.open("ws://echo.websocket.org/");
+                network.open();
+            } else {
+                console.log("close WebSocket connection...");
+                network.close();
             }
         }
         

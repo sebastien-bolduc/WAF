@@ -19,7 +19,7 @@ window.WAF.io = io;                                 // define by Node.js
      * @return 
      */
     namespace.WebSocketConnectionIO = function() {
-        this.connection = null;
+        this.connection = window.WAF.io.connect(null,{'auto connect': false});
         this.onOpenFunction = null;
         this.onCloseFunction = null;
         this.onMessageFunction = null;
@@ -47,17 +47,11 @@ window.WAF.io = io;                                 // define by Node.js
      * @return
      */
     namespace.WebSocketConnectionIO.prototype.open = function() {
-        if (!this.connection) {
-            this.connection = window.WAF.io.connect(null,{'auto connect': false}); 
-            this.connection.socket.connect();
-        } else {
+        if (this.connection.socket.disconnected) { 
             this.connection.socket.reconnect();
+        } else {
+            this.connection.socket.connect();
         }
-            
-        this.setOnOpen();
-        this.setOnClose();
-        this.setOnMessage();
-        this.setOnError();
     };
     
     /**
