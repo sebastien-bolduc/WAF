@@ -40,8 +40,37 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         
         // sound
         this.pulseSound = new window.WAF.audio.SoundEffect("http://www.wyomingwebdesign.com/files/sound_files/laser.wav");
-        //this.pulseSound = new window.WAF.audio.SoundEffect("sound/laser.wav");
+        //this.pulseSound = new window.WAF.audio.SoundEffect("https://c9.io/sebastien_bolduc/waf/workspace/test/starFighter/sound/laser.wav");
     };
+    
+    /**
+     * Move the starship.
+     * 
+     * @param x         New position for the starship.
+     * @param y         New position for the starship.
+     * @network network Network object for online.
+     * @return
+     */
+    namespace.Starship.prototype.move = function(x, y, network) {
+            this.x += x;
+            this.y += y;
+            
+            // limit set by the world
+            if (this.x < 0) {
+                this.x -= x;
+            } else if (this.x > (document.getElementById(this.parentElement).scrollWidth - this.width)) {
+                this.x -= x;
+            }
+            
+            if (this.y <= 0) {
+                this.y -= y;
+            } else if (this.y >= (document.getElementById(this.parentElement).scrollHeight - this.height)) {
+                this.y -= y;
+            }
+            
+            // network
+            network.send("1 position " + this.x + " " + this.y);
+        }
     
     /**
      * Shoot a pulse.

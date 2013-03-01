@@ -19,14 +19,14 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      * @param containedByElement ID of the element this background is 'contained' by.
      * @param backgroundID       ID of the background to handle.
      * @param image              Image associated with the background.
-     * @param initPosition       Initial position on the background.
+     * @param initPosition       Initial position and limit for the background.
      * @return 
      */
     namespace.BackgroundImage = function(containedByElement, backgroundID, image, initPosition) {
         document.getElementById(containedByElement).innerHTML += '<div id="' + backgroundID + '" class="viewport"><div class="' + image + '"></div></div>';
         
         this.id = backgroundID;
-        this.curPosition = initPosition;                                    // current position on the background
+        this.curPosition = initPosition;                                    // current position and limit for the background
     };
     
     /**
@@ -115,11 +115,11 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
      * @param loopFlag Loop the background (true or false).
      * @return
      */
-    namespace.BackgroundImage.prototype.scrollDown = function(speed, loop) {
+    namespace.BackgroundImage.prototype.scrollDown = function(speed, loopFlag) {
         var scrollHeight = document.getElementById(this.id).scrollHeight;   // height of the background
         var clientHeight = document.getElementById(this.id).clientHeight;   // height of the 'window'
         
-        if (loop) {
+        if (loopFlag) {
             this.curPosition.Y += speed;
             if (this.curPosition.Y >= (scrollHeight / 3) * 2) {
                 this.curPosition.Y -= (scrollHeight / 3); 
@@ -130,6 +130,35 @@ window.WAF.game.css.graphics = window.WAF.game.css.graphics || {};
             } else {
                 this.curPosition.Y = (scrollHeight - clientHeight);
             }
+        }
+    };
+    
+    /**
+     * Update the position of the background by scrolling it based on the position
+     * of a sprite.
+     * 
+     * @param sprite Sprite to base background position on.
+     * @return
+     */
+    namespace.BackgroundImage.prototype.update = function(sprite) {
+        var offset = 0;
+    
+        // scrolling the background
+        if (((sprite.x + sprite.width) - document.getElementById(this.id).scrollLeft) > this.curPosition.rightLimit) {
+            offset = ((sprite.x + sprite.width) - document.getElementById(this.id).scrollLeft) - this.curPosition.rightLimit;
+            this.scrollRight(offset, false);
+        }
+        if ((sprite.x - document.getElementById(this.id).scrollLeft) < this.curPosition.leftLimit) {
+            offset = (sprite.x - document.getElementById(this.id).scrollLeft) - this.curPosition.leftLimit;
+            this.scrollLeft(-offset, false);
+        }
+        if (((sprite.y + sprite.height) - document.getElementById(this.id).scrollTop) > this.curPosition.bottomLimit) {
+            offset = ((sprite.y + sprite.height) - document.getElementById(this.id).scrollTop) - this.curPosition.bottomLimit;
+            this.scrollDown(offset, false);
+        }
+        if ((sprite.y - document.getElementById(this.id).scrollTop) < this.curPosition.topLimit) {
+            offset = (sprite.y - document.getElementById(this.id).scrollTop) - this.curPosition.topLimit;
+            this.scrollUp(-offset, false);
         }
     };
     

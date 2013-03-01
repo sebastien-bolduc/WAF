@@ -45,7 +45,13 @@ io.sockets.on('connection', function (socket) {
         var element = data.split(" ");
         
         if (socketBoard[Number(element[0])]) {
-            socketBoard[Number(element[0])].send("position " + element[1] + " " + element[2]);
+            switch (element[1]) {
+                case "position":
+                    socketBoard[Number(element[0])].send("position " + element[2] + " " + element[3]);
+                    break;
+                default:
+                    socketBoard[Number(element[0])].send("message " + element[2]);       
+            }
         } else {
             socket.send("No other player...");
         }

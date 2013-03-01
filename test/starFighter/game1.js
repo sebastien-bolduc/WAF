@@ -40,9 +40,13 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         document.getElementById("element2").innerHTML = "Average time between frame: -- ms";
         
         // background
-        var initPosition = {};  // position of the background
+        var initPosition = {};                                              // position of the background
         initPosition.X = 0;
         initPosition.Y = 0;
+        initPosition.rightLimit = Math.floor(window.innerWidth / 3 * 2);    // limit for scrolling
+        initPosition.leftLimit = Math.floor(window.innerWidth / 3 * 1);
+        initPosition.topLimit = Math.floor(window.innerHeight / 4 * 1);
+        initPosition.bottomLimit = Math.floor(window.innerHeight / 4 * 3);  
         background = new window.WAF.game.css.graphics.BackgroundImage("game", "backgroundStarfield", "starfield", initPosition);
         
         // sprite
@@ -53,6 +57,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         
         // music
         music = new window.WAF.audio.Music("http://incompetech.com/music/royalty-free/mp3-royaltyfree/Poofy%20Reel.mp3");
+        //music = new window.WAF.audio.Music("https://c9.io/sebastien_bolduc/waf/workspace/test/starFighter/sound/Poofy%20Reel.mp3");
         
         // network
         network = new window.WAF.network.WebSocketConnectionIO();
@@ -61,8 +66,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         network.setOnMessage(function(data) {
             var element = data.split(" ");
             if (element[0] == "position") {
-                starship.x = element[1];
-                starship.y = element[2];
+                starship.x = Number(element[1]);
+                starship.y = Number(element[2]);
             } else {
                 alert('Message: ' + data);
             }
@@ -88,6 +93,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // game update...
         starship.update(gameTime);
         enemy.update(gameTime);
+        background.update(starship);
         
         // check collision...
         for (var i=0; i<starship.pulseList.length; i++) {                   // pulse
@@ -115,56 +121,20 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             starship.checkHitbox(enemy.rocketshipList[j].hitbox);
         }
         
-        // sprite...
-        function move(sprite, x, y) {
-            sprite.x += x;
-            sprite.y += y;
-            
-            // limit set by the world
-            if (sprite.x < 0) {
-                sprite.x -= x;
-            } else if (sprite.x > (document.getElementById("backgroundStarfield").scrollWidth - sprite.width)) {
-                sprite.x -= x;
-            }
-            
-            if (sprite.y <= 0) {
-                sprite.y -= y;
-            } else if (sprite.y >= (document.getElementById("backgroundStarfield").scrollHeight - sprite.height)) {
-                sprite.y -= y;
-            }
-            
-            // scrolling the background
-            if (((sprite.x + sprite.width) - document.getElementById("backgroundStarfield").scrollLeft) > (window.innerWidth / 3 * 2)) {
-                background.scrollRight(x, false);
-            }
-            if ((sprite.x - document.getElementById("backgroundStarfield").scrollLeft) < (window.innerWidth / 3 * 1)) {
-                background.scrollLeft(-x, false);
-            }
-            if (((sprite.y + sprite.height) - document.getElementById("backgroundStarfield").scrollTop) > (window.innerHeight / 4 * 3)) {
-                background.scrollDown(y, false);
-            }
-            if ((sprite.y - document.getElementById("backgroundStarfield").scrollTop) < (window.innerHeight / 4 * 1)) {
-                background.scrollUp(-y, false);
-            }
-            
-            // network
-            network.send("1 " + starship.x + " " + starship.y);
-        }
-        
         // keyboard...
         var speed = Math.ceil(5/16 * gameTime.elapsedGameTime);
         var keyboardState = this.keyboard.getState();
-        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {
-            move(starship, -speed, 0);
+        if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Left)) {                                 // starship
+            starship.move(-speed, 0, network);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Right)) {
-            move(starship, speed, 0);
+            starship.move(speed, 0, network);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Up)) {
-            move(starship, 0, -speed);
+            starship.move(0, -speed, network);
         }
         if (keyboardState.isKeyDown(window.WAF.inputs.Keys.Down)) {
-            move(starship, 0, speed);
+            starship.move(0, speed, network);
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.Space) && starship.size == 1) {
             starship.shoot();
@@ -197,7 +167,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.p)) {                                // message
             console.log("sending message...");
-            network.send("dring dring !!!");
+            network.send("1 message DringDring!!!");
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {
@@ -210,11 +180,11 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         // touch...
         var touchState = this.touch.getState();
         if (touchState.hasBeenTouched()) {
-            /*if (this.charmBar.top) {
+            if (this.charmBar.top) {
                 this.charmBar.hideTopCharmBar("status");
             } else {
                 this.charmBar.showTopCharmBar("status");
-            }*/
+            }
             if (!network.isOpen()) {
                 console.log("open WebSocket connection...");
                 //network.open("ws://echo.websocket.org/");
