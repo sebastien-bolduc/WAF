@@ -64,12 +64,22 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         network.setOnOpen();
         network.setOnClose();
         network.setOnMessage(function(data) {
-            var element = data.split(" ");
-            if (element[0] == "position") {
-                starship.x = Number(element[1]);
-                starship.y = Number(element[2]);
-            } else {
-                alert('Message: ' + data);
+            var obj = JSON.parse(data);
+            
+            switch (obj.type) {
+                case "connection":
+                    alert("match: " + obj.match + " --> message: " + obj.message);
+                    break;
+                case "sync":
+                    var syncData = JSON.parse(obj.data);
+                    starship.x = syncData.starshipX;
+                    starship.y = syncData.starshipY;
+                    break;
+                case "message":
+                    alert("match: " + obj.match + " --> message: " + obj.message);
+                    break;
+                default:
+                    alert("ECHO --> message: " + obj.message);
             }
         });
         network.setOnError();
@@ -167,7 +177,7 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.p)) {                                // message
             console.log("sending message...");
-            network.send("1 message DringDring!!!");
+            network.send(JSON.stringify({"type":"message", "message":"This is a simple message!"}));
         }
         if (keyboardState.isKeyDownOnce(window.WAF.inputs.Keys.s)) {
             if (this.charmBar.top) {

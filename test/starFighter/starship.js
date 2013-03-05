@@ -69,7 +69,8 @@ window.WAF.test.starFighter = window.WAF.test.starFighter || {};
             }
             
             // network
-            network.send("1 position " + this.x + " " + this.y);
+            
+            network.send(JSON.stringify({"type":"sync", "data":JSON.stringify({"starshipX":this.x, "starshipY":this.y})}));
         }
     
     /**
